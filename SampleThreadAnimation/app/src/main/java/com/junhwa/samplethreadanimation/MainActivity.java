@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Resources res = getResources();
-        drawableList.add(res.getDrawable(R.drawable.face1));
-        drawableList.add(res.getDrawable(R.drawable.face2));
-        drawableList.add(res.getDrawable(R.drawable.face3));
-        drawableList.add(res.getDrawable(R.drawable.face4));
-        drawableList.add(res.getDrawable(R.drawable.face5));
+        drawableList.add(res.getDrawable(R.drawable.face1, null));
+        drawableList.add(res.getDrawable(R.drawable.face2, null));
+        drawableList.add(res.getDrawable(R.drawable.face3, null));
+        drawableList.add(res.getDrawable(R.drawable.face4, null));
+        drawableList.add(res.getDrawable(R.drawable.face5, null));
 
         imageView = findViewById(R.id.imageView);
         Button button = findViewById(R.id.button);
