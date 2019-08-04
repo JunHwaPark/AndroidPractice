@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                queryPerson();
             }
         });
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                updatePerson();
             }
         });
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                deletePerson();
             }
         });
     }
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         String[] columns = cursor.getColumnNames();
         println("columns count -> " + columns.length);
 
-        for (int i = 0; i< columns.length; i++)
+        for (int i = 0; i < columns.length; i++)
             println("#" + i + " : " + columns[i]);
 
         ContentValues values = new ContentValues();
@@ -73,6 +73,52 @@ public class MainActivity extends AppCompatActivity {
 
         uri = getContentResolver().insert(uri, values);
         println("insert 결과 -> " + uri.toString());
+    }
+
+    public void queryPerson() {
+        try {
+            String uriString = "content://com.junhwa.sampleprovider/person";
+            Uri uri = new Uri.Builder().build().parse(uriString);
+
+            String[] columns = new String[]{"name", "age", "mobile"};
+            Cursor cursor = getContentResolver().query(uri, columns, null, null, "name ASC");
+            println("query 결과 : " + cursor.getCount());
+
+            int index = 0;
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndex(columns[0]));
+                int age = cursor.getInt(cursor.getColumnIndex(columns[1]));
+                String mobile = cursor.getString(cursor.getColumnIndex(columns[2]));
+
+                println("#" + index + " -> " + name + ", " + age + ", " + mobile);
+                index += 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePerson() {
+        String uriString = "content://com.junhwa.sampleprovider/person";
+        Uri uri = new Uri.Builder().build().parse(uriString);
+
+        String selection = "mobile = ?";
+        String[] selectionArgs = new String[] {"010-1000-1000"};
+        ContentValues updateValue = new ContentValues();
+        updateValue.put("mobile", "010-2000-2000");
+        int count = getContentResolver().update(uri, updateValue, selection, selectionArgs);
+        println("update 결과 : " + count);
+    }
+
+    public void deletePerson() {
+        String uriString = "content://com.junhwa.sampleprovider/person";
+        Uri uri = new Uri.Builder().build().parse(uriString);
+
+        String selection = "name = ?";
+        String[] selectionArgs = new String[] {"john"};
+
+        int count = getContentResolver().delete(uri, selection, selectionArgs);
+        println("delete 결과 : " + count);
     }
 
     public void println(String data) {

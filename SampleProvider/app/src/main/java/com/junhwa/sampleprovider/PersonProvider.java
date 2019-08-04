@@ -45,7 +45,7 @@ public class PersonProvider extends ContentProvider {
                         null,
                         null,
                         null,
-                        DatabaseHelper.PERSON_NAME + "ASC");
+                        DatabaseHelper.PERSON_NAME + " ASC");
                 break;
             default:
                 throw new IllegalArgumentException("알 수 없는 URI " + uri);
